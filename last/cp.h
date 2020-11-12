@@ -22,7 +22,7 @@ int cp(int argc, char argv[][20])
 	stat(argv[1],&statbuf);
 	size = statbuf.st_size;
 	readnumber = read(fd,tempor,size);
-	printf("you have read %d words \n",readnumber);
+	//printf("you have read %d words \n",readnumber);
 
     stat(argv[2],&statbuf1);
    
@@ -54,7 +54,7 @@ int cp(int argc, char argv[][20])
 	}
  
 	writenumber = write(fd1,tempor,readnumber);
-	printf("you have write %d words \n",writenumber);
+	//printf("you have write %d words \n",writenumber);
 
 
 	close(fd); 
