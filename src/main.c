@@ -47,10 +47,11 @@ int insert_char(char *source, int index,char c)
 int delete_char(char *source, int index)
 {
 
-    if(source==NULL||index>=strlen(source)||index==0)
+    if(source==NULL||index>=strlen(source)||strlen(source)==0)
     {
         return -1;
     }
+
     int len=strlen(source);
     for(int i=index+1;i<len;i++)
     {
@@ -102,13 +103,26 @@ int scanKeyboard()
         }
         if(in==127)
         {
-
+        
+       
             clear_line();
-            print_head();
+            if(cursor_place==0)
+            {
+                print_head();
+                continue;
+            }
             delete_char(str, cursor_place-1);
             len--;
             cursor_place--;
-            printf("%s\033[%dD",str,len-cursor_place);
+            if(len==cursor_place)
+            {
+                print_head();
+                printf("%s", str);
+                continue;
+            }
+            print_head();
+            printf("%s\033[%dD",str,len-cursor_place+1);
+        
         }
         else if(in=='\033')
         {
@@ -209,7 +223,7 @@ int scanKeyboard()
             {
                 clear_line();
                 print_head();
-                int dif = len-cursor_place;
+                int dif = len-cursor_place+1;
                insert_char(str,cursor_place, in);
                len++;
                cursor_place++;
@@ -264,6 +278,10 @@ void func()
         {
             whoami();
         }
+        else if(cmpStr(ans[0], "clear"))
+        {
+            printf("\33[H\033[2J\n");
+        }
         else if(cmpStr(ans[0], "pwd"))
         {
         //pwd();
@@ -316,10 +334,8 @@ void func()
               printf("wrong para!\n");
               return -1;
             }
-            printf("wc");
             wc(ans[1]);
             
-            printf("%s", ans[1]);
         }
         else if(cmpStr(ans[0], "cp"))
         {

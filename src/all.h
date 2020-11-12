@@ -476,7 +476,7 @@ void display_dir(char *path)
 
 }
 
-int ls_main(int argc, char **argv)
+int ls_main(int argc, char argv[][20])
 {
     int i, j, k = 0, num = 0; 
 
