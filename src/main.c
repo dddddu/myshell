@@ -10,6 +10,9 @@
 #include "ps.h"
 #include "fop.h"
 #include "all.h"
+#include "wc.h"
+#include "mv.h"
+#include "cp.h"
 #define MAX_LEN 50
 char str[MAX_LEN];
 char record[30][MAX_LEN];
@@ -232,6 +235,13 @@ int cmpStr(char *a, char *b)
     else
         return 0;
 }
+
+int deal_with_str(char *str)
+{
+    int len= strlen(str);
+    while(len>0&&str[len-1]==' ')
+        str[len-1]='\0';
+}
 void func()
 {
     int row=0;
@@ -239,6 +249,7 @@ void func()
         print_head();
         row =0;
         scanKeyboard();
+        deal_with_str(str);
         get_strs(str, ans, &row);
         if(cmpStr(str,"exit"))
         {
@@ -269,13 +280,9 @@ void func()
             ps(row, ans);
             cd(now_dir);
         }
-        else if(cmpStr(ans[0], "wc"))
-        {
-        
-        }
         else if(cmpStr(ans[0], "cat"))
         {
-            if(row<=1)
+            if(row<2)
                 continue;
             cat_main(row, ans);     
         }
@@ -295,15 +302,33 @@ void func()
         }
         else if(cmpStr(ans[0], "mv"))
         {
-
+            if(row<3)
+            {
+                printf("wrong para!\n");
+                return -1;
+            }
+            mv(row, ans);
         }
         else if(cmpStr(ans[0], "wc"))
         {
-
+            if(row<2)
+            {
+              printf("wrong para!\n");
+              return -1;
+            }
+            printf("wc");
+            wc(ans[1]);
+            
+            printf("%s", ans[1]);
         }
         else if(cmpStr(ans[0], "cp"))
         {
-
+            if(row<3)
+            {
+                printf("wrong para!\n");
+                return -1;
+            }
+            cp(row, ans);
         }
         else
         {
